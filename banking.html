@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banking</title>
+</head>
+<body>
+
+    <nav style="padding-left: 15px; background-color: rgba(149, 242, 146, 0.845); border-radius: 15px;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="https://cdn-icons-png.freepik.com/512/5244/5244586.png" alt="Logo" width="60" height="60" class="d-inline-block align-text-top">
+            </a>
+        </div>
+    </nav>
+    
+    <div style="padding-left: 15px; font-family:monospace; color: rgb(32, 218, 97);" class="container-fluid">
+        <h1>Banking Assignment</h1>
+    </div>
+<script>
+
+    function Account(accountNumber, owner, balance) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+        this.owner = owner;
+        }
+
+    Account.prototype.deposit = function(amount) {
+        // checks if the amount given as a parameter is a positive number
+        // if it is, the number is added to the balance and a message prints out confirming the addition
+        if (amount > 0) {
+            this.balance += amount;
+            console.log(`Deposited $${amount}. New balance is $${this.balance}.`);
+        } else {
+            console.log("Deposit amount must be a POSITIVE number.");
+        }
+    };
+
+    Account.prototype.withdraw = function(amount) {
+            // checks if the smount being given in the parameter is positive AS WELL as less than the balance available
+            // if it is, then the parameter amount is taken from the balance amount. Message confirming the withdrawal will print
+        if (amount > 0 && amount <= this.balance) {
+            this.balance -= amount;
+            console.log(`Withdrew $${amount}. New balance is $${this.balance}.`);
+            // else statement checks if the parameter amount is more than the available balance amount
+        } else if (amount > this.balance) {
+            console.log("Not enough money...you're broke!");
+        } else {
+            // in the case that the user enters a negative number in the paremeter
+            console.log("Must be a positive number, pleaseee");
+        }
+    };
+
+    // Ok, so this entire portion on finding the compound interest I did not know how to do. I researched this part and the formula
+    // was a little complicated. None the less, I will continue to note my code with how I understand the function is executing.
+    // defining the method as calculatedInterest. prototyping it, same as the withdrawal and deposit protos
+    Account.prototype.calculateInterest = function(rate, years) { // we need to give it 2 parameters, the interest rate and the number of years
+        // that the interest will be calculated for.
+
+        const n = 1; // the constant 'n' here represents the number of times per year that the interest will be compounded
+        // by leaving it at 1, it means we're setting it to compound annually
+
+        const interest = this.balance * Math.pow((1 + rate / n), n * years); // the constant 'interest' is defined here to store the result
+        // of the interets calculation. 'Math.pow' is a JS function that raises a number to a specified power. The base form for it is
+        // 'Math.pow(base, exponent)'. The base is calculated by taking the rate and dividing it by 'n' which in this case will just equal the rate.
+        // 1 is added to represent the principal amount. 'n*years' just calculates the exponent. In this formula, it takes the number of years and
+        //  multiplies it by the number of times that the interest rate is compounded per year. 'this.balance' is then multiplied to the calculated factor
+        // and taaadaaa, we have earned interest.
+        return interest;
+    };
+
+    // Examples for the console
+
+    const account = new Account(999777333, "Isaias Palma", 25000 );
+
+    account.deposit(1500);
+
+    account.withdraw(2400);
+
+    // sets the interest to 5% for 3 years
+    const interest = account.calculateInterest(0.05, 3);
+    // toFixed(2) turns the number into a string and also presents it with only 2 decimal places
+        console.log(`Balance after 3 years with interest: $${interest.toFixed(2)}`);
+
+</script>
+
+</body>
+</html>

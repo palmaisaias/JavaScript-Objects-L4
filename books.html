@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books</title>
+</head>
+<body>
+
+    <nav style="padding-left: 15px; background-color: rgba(242, 228, 146, 0.845); border-radius: 15px;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="https://cdn-icons-png.flaticon.com/512/9043/9043296.png" alt="Logo" width="60" height="60" class="d-inline-block align-text-top">
+            </a>
+        </div>
+    </nav>
+    
+    <div style="padding-left: 15px; font-family:fantasy; color: goldenrod;" class="container-fluid">
+        <h1>Library Assignent</h1>
+    </div>
+
+<script>
+
+    function Book(title, author, pages) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+    }
+
+    // Adding displayInfo method to Book prototype. Prototype beneficial because it doesnt have to be added to the constructor
+    // function which in turn would require every instance to have its own copy of the method. Since JS looks for the method in the 
+    // instance first, once it doesnt find it, it looks through the prototype chain. 
+        Book.prototype.displayInfo = function() {
+        return `Title: ${this.title}, Author: ${this.author}, Pages: ${this.pages}`;
+    };
+
+    let library = [];
+
+    const addBook = (title, author, pages) => {
+        const newBook = new Book(title, author, pages);
+        library.push(newBook);
+    };
+
+    const searchByTitle = (title) => {
+        // toLowerCase takes the book titles in the array as lower case and takes the search entry as lower case as well
+        return library.filter(book => book.title.toLowerCase().includes(title.toLowerCase()));
+    };
+
+    const searchByAuthor = (author) => {
+        return library.filter(book => book.author.toLowerCase().includes(author.toLowerCase()));
+    };
+
+    const filterByPages = (limit) => {
+        return library.filter(book => book.pages > limit);
+    };
+
+    // 'map' is a callback function and using map takes items in an array and transforms them to whatever we tell it to
+    const mapBooks = () => {
+        return library.map(
+            book => {
+                return {
+                    title: `Title: ${book.title}`,
+                    author: `Author: ${book.author}`,
+                    pages: book.pages
+                };
+            });
+    };
+
+    // Examples for the console
+    addBook('Outliers: The Story of Success', 'Malcolm Gladwell', 336);
+    addBook('Blink: The Power of Thinking Without Thinking', 'Malcolm Gladwell', 320);
+    addBook('The Tipping Point: How Little Things Can Make a Big Difference', 'Malcolm Gladwell', 301);
+    addBook('Becoming', 'Michelle Obama', 448);
+    addBook('Educated', 'Tara Westover', 352);
+    addBook('Where the Crawdads Sing', 'Delia Owens', 384);
+
+    console.log('Title search')
+        console.log(searchByTitle('The Tipping'));
+
+    console.log('Author search')
+        console.log(searchByAuthor('obama'));
+
+    console.log('Filter by page amount')
+        console.log(filterByPages(321));
+
+    console.log('Outputs transformed, aka mapped, list')
+        console.log(mapBooks());
+
+
+</script>
+
+
+</body>
+</html>
